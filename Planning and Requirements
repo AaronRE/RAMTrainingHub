@@ -1,0 +1,28 @@
+Purpose: Help new trainees learn about RAM processes and procedures.
+
+Goals: Provide training materials, quizzes, and resources to aid in the on-boarding process.
+
+Key Features:
+
+Training Modules: Interactive lessons and tutorials.
+Quizzes and Assessments: Evaluate understanding of the material.
+Documentation: Access to manuals, guides, and procedures.
+Progress Tracking: Monitor trainee progress and completion.
+
+Design: 
+
+Homepage: Introduction to the onboarding process.
+Modules Page: List of training modules and resources.
+Quizzes Page: Access to quizzes and assessments.
+Documentation Page: Manuals, guides, and procedural documents.
+Dashboard: Progress tracking and user management.
+
+Technology Stack:
+
+MySQL: MySQL Database
+
+Express.js: Web Application Framework for Node.js
+
+React: Front-end Library
+
+Node.js: JavaScript Runtime
