@@ -1,2 +1,2 @@
-//Encapulates user related business logic methods that interact with the user file of the repository (database interface).
-//Will interact with the user entity to execute said methods and enforce business rules.
+// Encapulates user related business logic methods that interact with the user file of the repository (database interface).
+// Will interact with the user entity to execute said methods and enforce business rules.

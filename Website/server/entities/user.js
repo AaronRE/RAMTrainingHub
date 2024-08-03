@@ -1,6 +1,6 @@
 // Represents the user business object. Will encapsulate its related data, behavior, and rules.
 
- export default class User{
+ class User{
 	constructor(id, username, password, email){
 		this.id = id;
 		this.username = username;
@@ -8,7 +8,9 @@
 		this.email = email;
 	}
 	
-	validate() {
-		
+	validateUsername() {
+		return this.username.length >= 3;
 	}
 }
+
+export default User;
