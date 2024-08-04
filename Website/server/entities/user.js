@@ -9,7 +9,15 @@
 	}
 	
 	validateUsername() {
-		return this.username.length >= 3;
+		return this.username.length > 6 && this.username.length < 30;
+	}
+	
+	validatePassword() {
+		return this.password.length > 7 && this.username.length < 20;
+	}
+	
+	validateEmail() {
+		return this.email.includes("@");
 	}
 }
 
