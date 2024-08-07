@@ -5,8 +5,8 @@ import User from "../../entities/user.js";
  Will also keep the business logic releated to creating users seperate from the entity itself.
 */
 
-function createUser(id, username, password, email){
-	return new User(id, username, password, email);
+function createUser(id, firstName, lastName, username, password, email){
+	return new User(id, firstName, lastName, username, password, email);
 }
 
 export default createUser;
