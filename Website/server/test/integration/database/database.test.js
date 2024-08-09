@@ -1,53 +1,46 @@
 import {expect} from "chai";
 import mysql from "mysql2";
+import database from "../../../utils/database.js";
+import databaseService from "../../../utils/databaseService.js";
 
 describe("Database connection and methods", ()=>{
 	
-	let connection; 
-	
-	beforeEach((done)=>{
-		connection = mysql.createConnection({
-			host: "127.0.0.1",
-			user: "root",
-			password: "585882552",
-		});
-		connection.connect((error)=>{
-			if(error){
-				done(error);
-			}
-			else{
-				done();
-			}
-		});
+	let db;
+	let dbWrapper;
+	let connection;
+	let testConfig ={
+		host: "127.0.0.1",
+		user: "root",
+		password: "585882552",
+		database: "ramtraininghub"
+	};
+	beforeEach(async()=>{
+		db = new database(testConfig);
+		dbWrapper = new databaseService(db);
+		await dbWrapper.getInitConnection();
 	});
 	
-	afterEach((done)=>{
-		if(connection){
-			connection.end((error)=>{
-				if(error){
-					done(error);
-				}
-				else{
-					done();
-				}
-			});
-		}
-		else{
-			done();
-		}
+	afterEach(async()=>{
+		await dbWrapper.getEndConnection();
 	});
 	
-	it("Should have successfully connected",(done)=>{
-		connection.ping((error)=>{
-			if(error){
-				done(error);
-			}
-			else{
-				expect(1).to.equal(1);
-				done();
-			}
-		});
+	it("should have successfully connected",()=>{
+		try{
+			connection = dbWrapper.getConnection();
+		}
+		catch(error){
+			throw error;
+		}		
+	});
 	
+	it("should return true if the user already exists", async ()=>{
+		try{
+			let temp = await dbWrapper.checkIfUserExistsById(2);
+			expect(temp).to.be.true;
+		}
+		catch(error){
+			throw error;
+		}
 	});
 	
 	

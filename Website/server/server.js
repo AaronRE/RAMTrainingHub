@@ -1,5 +1,5 @@
-const express = require('express');
-const path = require('path');
+import express from "express";
+import path from "path";
 const app = express();
 const port = 5000; // Choose a port for the server
 
@@ -27,4 +27,4 @@ app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });
 
-module.exports = app;
+export default app;
