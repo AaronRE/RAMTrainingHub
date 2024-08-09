@@ -43,5 +43,15 @@ describe("Database connection and methods", ()=>{
 		}
 	});
 	
+	it("should return \"User added successfully if there isn't a duplicate username\"", async()=>{
+		try{
+			let res = await dbWrapper.addUser("test", "test", "tester123", "test123", "test@gmail.com");
+			expect(res.response).to.equal("User added successfully!");
+		}
+		catch(error){
+			throw error;
+		}
+	});
+	
 	
 });

@@ -44,6 +44,33 @@ class databaseService{
 		}
 	}
 	
+	async addUser(firstName, lastName, username, password, email){
+		
+		try{
+			let connection = this.database.getConnection();
+			await connection.query(
+			"INSERT INTO users (firstName, lastName, userName, user_password, email) VALUES (?, ?, ?, ?, ?)",
+			[firstName, lastName, username, password, email]
+			);
+			return{
+				response: "User added successfully!"
+			};
+		}
+		catch(error){
+			console.log(error);
+			if(error.errno === 1062){
+				return{
+					response: "That Username already exists"
+				};
+			}
+			else{
+				return{
+					response: "Error, user couldn't be created"
+				};
+			}
+		}
+	}
+	
 }
 
 export default databaseService;
