@@ -81,10 +81,10 @@ class databaseService{
 		return await this.connectionHandler(async (connection)=>{
 			try{
 				const [res] = await connection.query(
-				"INSERT INTO users (firstName, lastName, userName, user_password, email) VALUES (?, ?, ?, ?, ?)",
-				[firstName, lastName, username, password, email]
+					"INSERT INTO users (firstName, lastName, userName, user_password, email) VALUES (?, ?, ?, ?, ?)",
+					[firstName, lastName, username, password, email]
 				);
-				const userId = res.id;
+				const userId = res.insertId;;
 				return{
 					id: userId,
 					boolean: true,
@@ -158,10 +158,10 @@ class databaseService{
 		return await this.connectionHandler(async(connection)=>{
 			try{
 				const [res] = await connection.query(
-				"INSERT INTO documents (title, body, author, email, type) VALUES (?, ?, ?, ?, ?)",
-				[title, body, author, email, type]
+					"INSERT INTO documents (title, body, author, email, type) VALUES (?, ?, ?, ?, ?)",
+					[title, body, author, email, type]
 				);
-				const documentId = res.id;
+				const documentId = res.insertId;
 				return{
 					id: documentId,
 					boolean: true,
@@ -213,6 +213,336 @@ class databaseService{
 		});
 	}
 	
+	// Method that wipes all documents from the currently connected database.
+	async deleteAllDocuments(){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				await connection.query(
+					"DELETE FROM documents");
+				return{
+					boolean: true,
+					response : "All documents deleted successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, all documents couldn't be deleted."
+				}
+			}
+		});
+	}
+	
+	// Method that adds a new image to the given document by its id.
+	async addImage(documentId, imageName, imageLink){
+		return await this.connectionHandler(async(connection)=>{
+			try{
+				const [res] = await connection.query(
+					"INSERT INTO images (document_id, image_name, image_link) VALUES (?, ?, ?)",
+					[documentId, imageName, imageLink]
+				);
+				const imageId = res.insertId;;
+				return{
+					id: imageId,
+					boolean: true,
+					response: "Image added successfully!"
+				};
+			}
+			catch(error){
+				/*
+					Duplication error code returned indicates that the name of the proposed document 
+					already exists in the database. 
+				
+				*/
+				if(error.errno === 1062){
+					return{
+						boolean: false,
+						response: "That image already exists."
+					};
+				}
+				else{
+					return{
+						boolean: false,
+						response: "Error, image couldn't be added."
+					};
+				}
+			}
+		});
+	}
+	
+	// Method that deletes an image from a given docuemnt based on the given image name.
+	async deleteImage(imageName){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				await connection.query(
+					"DELETE FROM images WHERE image_Name = ?",
+					[imageName]
+				);
+				return{
+					boolean: true,
+					response : "Image deleted successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, image couldn't be deleted."
+				}
+			}
+		});
+	}
+	
+	// Method that wipes all the images from the currently connected database.
+	async deleteAllImages(){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				await connection.query(
+					"DELETE FROM images");
+				return{
+					boolean: true,
+					response : "All images deleted successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, all images couldn't be deleted."
+				}
+			}
+		});
+	}
+	
+	async getImages(documentId){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				const [images] = await connection.query(
+					"SELECT * FROM images WHERE document_id = ?",
+					[documentId]
+				);
+				return{
+					images: images,
+					boolean: true,
+					response : "All images retrieved successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, images couldn't be retrieved."
+				}
+			}
+		});
+	}
+	
+	// Method that adds a new module to the database.
+	async addModule(title, body){
+		return await this.connectionHandler(async(connection)=>{
+			try{
+				const [res] = await connection.query(
+					"INSERT INTO modules (title, body) VALUES (?, ?)",
+					[title, body]
+				);
+				const moduleId = res.insertId;
+				return{
+					id: moduleId,
+					boolean: true,
+					response: "Module added successfully!"
+				};
+			}
+			catch(error){
+				/*
+					Duplication error code returned indicates that the title of the proposed module 
+					already exists in the database. 
+					
+				*/
+				if(error.errno === 1062){
+					return{
+						boolean: false,
+						response: "That Module already exists."
+					};
+				}
+				else{
+					return{
+						boolean: false,
+						response: "Error, Module couldn't be created."
+					};
+				}
+			}
+		});
+	}
+	
+	// Method that deletes a module from the database based on the given title.
+	async deleteModule(title){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				await connection.query(
+					"DELETE FROM modules WHERE title = ?",
+					[title]
+				);
+				return{
+					boolean: true,
+					response : "Module deleted successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, module couldn't be deleted."
+				}
+			}
+		});
+	}
+	
+	// Method that wipes all modules from the currently connected database.
+	async deleteAllModules(){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				await connection.query(
+					"DELETE FROM modules");
+				return{
+					boolean: true,
+					response : "All modules deleted successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, all modules couldn't be deleted."
+				}
+			}
+		});
+	}
+	
+	async getModules(){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				const [modules] = await connection.query(
+					"SELECT * FROM modules",
+				);
+				return{
+					modules: modules,
+					boolean: true,
+					response : "All modules retrieved successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, modules couldn't be retrieved."
+				}
+			}
+		});
+	}
+	
+	// Method that adds a new quiz to the database.
+	async addQuiz(moduleId, title, body){
+		return await this.connectionHandler(async(connection)=>{
+			try{
+				const [res] = await connection.query(
+					"INSERT INTO quizzes (module_id, title, body) VALUES (?, ?, ?)",
+					[moduleId, title, body]
+				);
+				const quizId = res.insertId;
+				return{
+					id: quizId,
+					boolean: true,
+					response: "Quiz added successfully!"
+				};
+			}
+			catch(error){
+				/*
+					Duplication error code returned indicates that the title of the proposed quiz 
+					already exists in the database. 
+					
+				*/
+				if(error.errno === 1062){
+					return{
+						boolean: false,
+						response: "That Quiz already exists."
+					};
+				}
+				else{
+					return{
+						boolean: false,
+						response: "Error, Quiz couldn't be created."
+					};
+				}
+			}
+		});
+	}
+	
+	// Method that deletes a quiz from the database based on the given title.
+	async deleteQuiz(title){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				await connection.query(
+					"DELETE FROM quizzes WHERE title = ?",
+					[title]
+				);
+				return{
+					boolean: true,
+					response : "Quiz deleted successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, quiz couldn't be deleted."
+				}
+			}
+		});
+	}
+	
+	// Method that wipes all quizzes from the currently connected database.
+	async deleteAllQuizzes(){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				await connection.query(
+					"DELETE FROM quizzes");
+				return{
+					boolean: true,
+					response : "All quizzes deleted successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, all quizzes couldn't be deleted."
+				}
+			}
+		});
+	}
+	
+	async getQuizzes(){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				const [quizzes] = await connection.query(
+					"SELECT * FROM quizzes",
+				);
+				return{
+					quizzes: quizzes,
+					boolean: true,
+					response : "All quizzes retrieved successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, quizzes couldn't be retrieved."
+				}
+			}
+		});
+	}
 }
 
 export default databaseService;

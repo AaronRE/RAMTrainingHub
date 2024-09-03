@@ -7,6 +7,36 @@ class userService{
 		this.user = user;
 	}
 	
+	// Retreives the user's id.
+	getId(){
+		return this.user.id;
+	}
+	
+	// Retreives the user's first name.
+	getFirstName(){
+		return this.user.firstName;
+	}
+	
+	// Retreives the user's last name.
+	getLastName(){
+		return this.user.lastName;
+	}
+	
+	// Retreives the user's username.
+	getUserName(){
+		return this.user.username;
+	}
+	
+	// Retreives the user's password.
+	getPassword(){
+		return this.user.password;
+	}
+	
+	// Retreives the user's email.
+	getEmail(){
+		return this.user.email;
+	}
+	
 	// Getter method that ensures the first name of the user is between 1 and 15 characters long.
 	getValidateFirstName(){
 		return this.user.validateFirstName();
@@ -37,7 +67,6 @@ class userService{
 		let dbWrapper = new databaseService();
 		return result = await dbWrapper.deleteUser(userName);
 	}
-	
 }
 
 export default userService;
