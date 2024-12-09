@@ -3,7 +3,7 @@ import quizService from "./quizService.js";
 import databaseService from "../../utils/databaseService.js";
 /*	
 	A function that keeps the details of how quiz entity objects are instantiated hidden from the rest of the application.
- 	If the uiz entity is redefined, implementing those changes will be easy.
+ 	If the quiz entity is redefined, implementing those changes will be easy.
  	Will also keep the business logic releated to creating quizzes seperate from the entity itself.
 */
 async function createQuiz(moduleId, title, body){

@@ -17,7 +17,7 @@ describe("Image Entity", ()=>{
 		await dbWrapper.deleteAllImages();
 		
 		// Used the document factory to instantiate a new document.
-		doc = await createDocument("UltraSite Manual", "This is a test", "test", "test123@gmail.com", "Manual");
+		doc = await createDocument(null, "UltraSite Manual", "This is a test", "test", "test123@publix.com", "Manual");
 		if(doc.boolean === false){
 			throw new Error(document.response);
 		}

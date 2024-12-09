@@ -30,10 +30,10 @@
 		return this.password.length > 7 && this.password.length < 20;
 	}
 	
-	// Method that ensures the email of the user has one @ symbol with characters before and after it.
-	validateEmail() {
-		let regex = /^[^@]+@[^@]+$/;
-		return regex.test(this.email);
+	// Method that ensures that the provided email is a valid publix email.
+	validateEmail(){
+		let emailRegex = /^[^\s@]+@publix\.com$/;
+		return emailRegex.test(this.email);
 	}
 }
 

@@ -13,7 +13,7 @@ describe("Document Entity", ()=>{
 		await dbWrapper.deleteAllDocuments();
 		
 		// Used the document factory to instantiate a new document.
-		doc = await createDocument("UltraSite Manual", "This is a test", "test", "test123@gmail.com", "Manual");
+		doc = await createDocument(null, "UltraSite Manual", "This is a test", "test", "test123@publix.com", "Manual");
 		if(doc.boolean === false){
 			throw new Error(document.response);
 		}
@@ -23,7 +23,11 @@ describe("Document Entity", ()=>{
 	});
 	
 	afterEach(async()=>{
-		dbWrapper.deleteAllDocuments();
+		await dbWrapper.deleteAllDocuments();
+	});
+	
+	it("should have a moduleId field", ()=>{
+		expect(documentWrapper.getModuleId()).to.equal(null);
 	});
 	
 	it("should have a title field", ()=>{
@@ -39,7 +43,7 @@ describe("Document Entity", ()=>{
 	});
 	
 	it("should have an email field", ()=>{
-		expect(documentWrapper.getEmail()).to.equal("test123@gmail.com");
+		expect(documentWrapper.getEmail()).to.equal("test123@publix.com");
 	});
 	
 	it("should have a type field", ()=>{
@@ -52,6 +56,10 @@ describe("Document Entity", ()=>{
 	
 	it("should have a body between 0 and 5000 characters long", ()=>{
 		expect(documentWrapper.getValidateBody()).to.be.true;
+	});
+	
+	it("should have a valid Publix email associated to it", ()=>{
+		expect(documentWrapper.getValidateEmail()).to.be.true;
 	});
 	
 	it("should have a type that is either manual or procedure", ()=>{

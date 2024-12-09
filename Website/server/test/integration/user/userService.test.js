@@ -13,13 +13,17 @@ describe("User Entity", ()=>{
 		await dbWrapper.deleteAllUsers();
 		
 		// Used the user factory to instantiate a new user.
-		user = await createUser("test", "test", "tester123416", "test1234", "test123@gmail.com");
+		user = await createUser("test", "test", "tester123416", "test1234", "test123@publix.com");
 		if(user.boolean === false){
 			throw new Error(user.response);
 		}
 		user = user.user;
 		// Dependency injection. I've made this test file dependent on the userWrapper for interacting with the user object's methods.
 		userWrapper = new userService(user);
+	});
+	
+	afterEach(async ()=>{
+		await dbWrapper.deleteAllUsers();
 	});
 	
 	it("should have a firstName field", ()=>{
@@ -39,7 +43,7 @@ describe("User Entity", ()=>{
 	});
 	
 	it("should have an email field", ()=>{
-		expect(userWrapper.getEmail()).to.equal("test123@gmail.com");
+		expect(userWrapper.getEmail()).to.equal("test123@publix.com");
 	});
 	
 	it("should have a first name in between 0 and 16 characters long", ()=>{
@@ -58,7 +62,7 @@ describe("User Entity", ()=>{
 		expect(userWrapper.getValidatePassword()).to.be.true;
 	});
 	
-	it("should have a valid email that contains the @ symbol", ()=>{
+	it("should have a valid email that ends with @publix.com", ()=>{
 		expect(userWrapper.getValidateEmail()).to.be.true;
 	})
 });

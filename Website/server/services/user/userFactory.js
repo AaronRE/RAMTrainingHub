@@ -42,7 +42,7 @@ async function createUser(firstName, lastName, username, password, email){
 		case !userWrapper.getValidateEmail():
 			return{
 				boolean: false,
-				response: "Email must contain one @ character."
+				response: "Email must end with @publix.com."
 			};
 	}
 	

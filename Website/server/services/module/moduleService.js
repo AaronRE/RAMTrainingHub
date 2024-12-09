@@ -1,6 +1,7 @@
 // A layer of abstraction to wrap around the module class. Will help keep module entities decoupled from the rest of the application.
 // Will interact with the module entity by executing business logic methods and enforcing business rules.
 import databaseService from "../../utils/databaseService.js";
+import createModule from "./moduleFactory.js";
 
 class moduleService{
 	constructor(module){
@@ -32,10 +33,23 @@ class moduleService{
 		return this.module.validateBody();
 	}
 	
+	// Async method that returns a module that is also added to the database.
+	async createModule(title, body){
+		return result = await createModule(title, body);
+	}
+	
+	// Async method that deletes a module from the database with the given title.
 	async deleteModule(title){
 		let dbWrapper = new databaseService();
 		return result = await dbWrapper.deleteModule(title);
 	}
+	
+	// Async method that retrieves all modules from the database.
+	async getModules(){
+		let dbWrapper = new databaseService();
+		return result = await dbWrapper.getModules();
+	}
+	
 }
 
 export default moduleService;

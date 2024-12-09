@@ -39,8 +39,7 @@ describe("Quiz Entity", ()=>{
 	});
 	
 	afterEach(async()=>{
-		dbWrapper.deleteAllModules();
-		dbWrapper.deleteAllQuizzes();                                                   
+		await dbWrapper.deleteAllModules();
 	});
 	
 	it("should have an id field", ()=>{

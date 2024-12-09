@@ -2,7 +2,7 @@
 import imageService from "../services/image/imageService";
 import createImage from "../services/image/imageFactory";
 
-class ImageController{
+class imageController{
 	// Method that relays image creation requests to the approriate service.
 	async createImage(req, res){
 		// Obtain the image details from the request body
@@ -44,18 +44,44 @@ class ImageController{
 		let imageWrapper = new imageService();
 		/* 
 			Attempting to delete the proposed image from the database via the imageService deleteUser method
-			which interacts with the database through the appropriately databaseService method.
+			which interacts with the database through the appropriate databaseService method.
 		*/
 		let result = await imageWrapper.deleteImage(imageName);
 		if(result.boolean){
-			// Image creation successful.
+			// Image deletion successful.
 			return res.status(201).json({
 				boolean: true,
 				response: result.response
 			});
 		}
 		else{
-			// Image creation failed.
+			// Image deletion failed.
+			return res.status(400).json({
+				boolean: false,
+				response: result.response
+			});
+		}
+		
+	}
+	
+	// Method that relays image retrieval requests to the approriate service.
+	async getImages(req, res){
+		const documentId = req.body.documentId;
+		let imageWrapper = new imageService();
+		/* 
+			Attempting to retrieve the images associated to the given documentId from the database via the imageService
+			getImages method which interacts with the database through the appropriate databaseService method.
+		*/
+		let result = await imageWrapper.getImages(documentId);
+		if(result.boolean){
+			// Image(s) retrieval successful.
+			return res.status(201).json({
+				boolean: true,
+				response: result.response
+			});
+		}
+		else{
+			// Image(s) retrieval failed.
 			return res.status(400).json({
 				boolean: false,
 				response: result.response
@@ -65,4 +91,4 @@ class ImageController{
 	}
 }
 
-export default ImageController;
+export default imageController;

@@ -1,6 +1,7 @@
 // A layer of abstraction to wrap around the user class. Will help keep user entities decoupled from the rest of the application.
 // Will interact with the user entity by executing business logic methods and enforcing business rules.
 import databaseService from "../../utils/databaseService.js";
+import createUser from "./userFactory.js";
 
 class userService{
 	constructor(user){
@@ -57,15 +58,26 @@ class userService{
 		return this.user.validatePassword();
 	}
 	
-	// Getter method that ensures the email of the user has one @ symbol with characters before and after it.
+	// Getter method that ensures the email of the user ends with @publix.com.
 	getValidateEmail() {
 		return this.user.validateEmail();
 	}
 	
-	// Method that deletes a user from the database given their username.
+	// Async method that returns a user that is also added to the database.
+	async createUser(firstName, lastName, username, password, email){
+		return result = await createUser(firstName, lastName, username, password, email);
+	}
+	
+	// Async method that deletes a user from the database given their username.
 	async deleteUser(userName){
 		let dbWrapper = new databaseService();
 		return result = await dbWrapper.deleteUser(userName);
+	}
+	
+	// Async method that reteives the user data associated to the given username from the database.
+	async getUserData(userName){
+		let dbWrapper = new databaseService();
+		return result = await dbWrapper.getUserData(userName);
 	}
 }
 

@@ -38,9 +38,21 @@ class quizService{
 		return this.quiz.validateBody();
 	}
 	
+	// Async method that returns a quiz that is also added to the database.
+	async createQuiz(moduleId, title, body){
+		return result = await createQuiz(moduleId, title, body);
+	}
+	
+	// Async method that deletes a quiz from the database with the given title.
 	async deleteQuiz(title){
 		let dbWrapper = new databaseService();
 		return result = await dbWrapper.deleteQuiz(title);
+	}
+	
+	// Async method that retrieves all quizzes from the database associated to the given moduleId.
+	async getQuizzes(moduleId){
+		let dbWrapper = new databaseService();
+		return result = await dbWrapper.getQuizzes(moduleId);
 	}
 }
 

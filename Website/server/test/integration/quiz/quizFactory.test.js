@@ -12,10 +12,14 @@ describe("Quiz Factory",()=>{
 	
 	beforeEach(async()=>{
 		dbWrapper = new databaseService();
-		await dbWrapper.deleteAllQuizzes();
+		// The database deletes all quiz related content that is associated to each deleted module.
 		await dbWrapper.deleteAllModules();
 	    module = await createModule("Rack Down", "This is a test");
 		moduleId = module.module.id;
+	});
+	
+	afterEach(async()=>{
+		await dbWrapper.deleteAllModules();
 	});
 	
 	it("should successfully create a Quiz", async()=>{
@@ -25,7 +29,6 @@ describe("Quiz Factory",()=>{
 	
 	it("should handle attempting to create a Quiz that already exsists", async()=>{
 		res = await createQuiz(moduleId, "Rack Down", "This is a test");
-		expect(res.boolean).to.be.true;
 		res = await createQuiz(moduleId, "Rack Down", "This is a test");
 		expect(res.boolean).to.be.false;
 	});

@@ -2,7 +2,7 @@
 import moduleService from "../services/module/moduleService";
 import createModule from "../services/module/moduleFactory";
 
-class ModuleController{
+class moduleController{
 	// Method that relays module creation requests to the approriate service.
 	async createModule(req, res){
 		// Obtain the module details from the request body
@@ -47,21 +47,46 @@ class ModuleController{
 		*/
 		let result = await moduleWrapper.deleteModule(moduleTitle);
 		if(result.boolean){
-			// Module creation successful.
+			// Module deletion successful.
 			return res.status(201).json({
 				boolean: true,
-				response: module.response
+				response: result.response
 			});
 		}
 		else{
-			// Module creation failed.
+			// Module deletion failed.
 			return res.status(400).json({
 				boolean: false,
-				response: module.response
+				response: result.response
+			});
+		}
+		
+	}
+	
+	// Method that relays module retrieval requests to the approriate service.
+	async getModules(res){
+		let moduleWrapper = new moduleService();
+		/* 
+			Attempting to retrieve the module(s) from the database via the moduleService getModules method
+			which interacts with the database through the appropriate databaseService method.
+		*/
+		let result = await moduleWrapper.getModules();
+		if(result.boolean){
+			// Module(s) retrieval successful.
+			return res.status(201).json({
+				boolean: true,
+				response: result.response
+			});
+		}
+		else{
+			// Module(s) retrieval failed.
+			return res.status(400).json({
+				boolean: false,
+				response: result.response
 			});
 		}
 		
 	}
 }
 
-export default ModuleController;
+export default moduleController;

@@ -28,9 +28,21 @@ class imageService{
 		return this.image.validateImageLink();
 	}
 	
+	// Async method that returns an image that is also added to the database.
+	async createImage(documentId, imageName, imageLink){
+		return result = await createImage(documentId, imageName, imageLink);
+	}
+	
+	// Async method that deletes an image from the database with the given imageName.
 	async deleteImage(imageName){
 		let dbWrapper = new databaseService();
 		return result = await dbWrapper.deleteImage(imageName);
+	}
+	
+	// Async method that retrieves all images from the database associated to the given document.
+	async getImages(documentId){
+		let dbWrapper = new databaseService();
+		return result = await dbWrapper.getImages(documentId);
 	}
 }
 

@@ -12,8 +12,8 @@ describe("Module Factory",()=>{
 		await dbWrapper.deleteAllModules();
 	});
 	
-	afterEach(async ()=>{
-		
+	afterEach(async()=>{
+		await dbWrapper.deleteAllModules();
 	});
 	
 	it("should successfully create a module", async()=>{

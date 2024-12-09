@@ -23,7 +23,7 @@ describe("Module Entity", ()=>{
 	});
 	
 	afterEach(async()=>{
-		dbWrapper.deleteAllModules();
+		await dbWrapper.deleteAllModules();
 	});
 	
 	it("should have an id field", ()=>{

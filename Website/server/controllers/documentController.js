@@ -2,7 +2,7 @@
 import documentService from "../services/document/documentService";
 import createDocument from "../services/document/documentFactory";
 
-class DocumentController{
+class documentController{
 	// Method that relays document creation requests to the approriate service.
 	async createDocument(req, res){
 		// Obtain the document details from the request body
@@ -46,7 +46,7 @@ class DocumentController{
 		let documentWrapper = new documentService();
 		/* 
 			Attempting to delete the proposed document from the database via the documentService deleteDocument method
-			which interacts with the database through the appropriately databaseService method.
+			which interacts with the database through the appropriate databaseService method.
 		*/
 		let result = await documentWrapper.deleteDocument(documentTitle);
 		if(result.boolean){
@@ -65,6 +65,57 @@ class DocumentController{
 		}
 		
 	}
+	
+	// Method that relays document retrieval requests to the approriate service.
+	async getDocuments(req, res){
+		let documentWrapper = new documentService();
+		/* 
+			Attempting to retrieve all the documents from the database via the documentService getDocuments method
+			which interacts with the database through the appropriate databaseService method.
+		*/
+		let result = await documentWrapper.getDocuments();
+		if(result.boolean){
+			// Document(s) retrieval successful.
+			return res.status(201).json({
+				boolean: true,
+				response: result.response
+			});
+		}
+		else{
+			// Document(s) retrieval failed.
+			return res.status(400).json({
+				boolean: false,
+				response: result.response
+			});
+		}
+		
+	}
+	
+	// Method that relays document retrieval requests to the approriate service.
+	async getModuleDocuments(req, res){
+		const moduleId = req.body.moduleId;
+		let documentWrapper = new documentService();
+		/* 
+			Attempting to retrieve the documents associated to the given moduleId from the database via the documentService 
+			getModuleDocuments method which interacts with the database through the appropriate databaseService method.
+		*/
+		let result = await documentWrapper.getModuleDocuments(moduleId);
+		if(result.boolean){
+			// Module associated document(s) retrieval successful.
+			return res.status(201).json({
+				boolean: true,
+				response: result.response
+			});
+		}
+		else{
+			// Module associated document(s) retrieval failed.
+			return res.status(400).json({
+				boolean: false,
+				response: result.response
+			});
+		}
+		
+	}
 }
 
-export default DocumentController;
+export default documentController;

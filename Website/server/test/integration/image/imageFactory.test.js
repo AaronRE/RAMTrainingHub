@@ -14,14 +14,13 @@ describe("Image Factory",()=>{
 	beforeEach(async()=>{
 		dbWrapper = new databaseService();
 		await dbWrapper.deleteAllImages();
-	    doc = await createDocument(
-			"UltraSite Manual", "This is a test", "test", "test123@gmail.com", "Manual"
-		);
+	    doc = await createDocument(null, "UltraSite Manual", "This is a test", "test", "test123@publix.com", "Manual");
 		docId = doc.document.id;
 	});
 	
 	afterEach(async ()=>{
 		await dbWrapper.deleteDocument("UltraSite Manual");
+		await dbWrapper.deleteAllImages();
 	});
 	
 	it("should successfully create an Image", async()=>{

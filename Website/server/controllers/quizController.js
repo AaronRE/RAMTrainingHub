@@ -1,8 +1,9 @@
 // Will map quiz related HTTP requests to the appropriate services which contain the appropriate business logic to handle them.
 import quizService from "../services/quiz/quizService";
 import createQuiz from "../services/quiz/quizFactory";
+import moduleService from "../services/module/moduleService";
 
-class QuizController{
+class quizController{
 	// Method that relays quiz creation requests to the approriate service.
 	async createQuiz(req, res){
 		// Obtain the quiz details from the request body
@@ -39,7 +40,7 @@ class QuizController{
 	}
 	
 	// Method that relays quiz deletion requests to the approriate service.
-	async deleteModule(req, res){
+	async deleteQuiz(req, res){
 		const quizTitle = req.body.title;
 		let quizWrapper = new quizService();
 		/* 
@@ -51,18 +52,44 @@ class QuizController{
 			// Quiz creation successful.
 			return res.status(201).json({
 				boolean: true,
-				response: quiz.response
+				response: result.response
 			});
 		}
 		else{
 			// Quiz creation failed.
 			return res.status(400).json({
 				boolean: false,
-				response: quiz.response
+				response: result.response
+			});
+		}
+		
+	}
+	
+	// Method that relays quiz retrieval requests to the approriate service.
+	async getQuizzes(req, res){
+		const moduleId = req.body.moduleId;
+		let quizWrapper = new quizService();
+		/* 
+			Attempting to retrieve the quizzes from the database via the quizService getQuizzes method
+			which interacts with the database through the appropriate databaseService method.
+		*/
+		let result = await quizWrapper.getQuizzes(moduleId);
+		if(result.boolean){
+			// Quizze(s) retrieval successful.
+			return res.status(201).json({
+				boolean: true,
+				response: result.response
+			});
+		}
+		else{
+			// Quizze(s) retrieval failed.
+			return res.status(400).json({
+				boolean: false,
+				response: result.response
 			});
 		}
 		
 	}
 }
 
-export default QuizController;
+export default quizController;
