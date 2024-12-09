@@ -4,8 +4,8 @@ import userService from "../../../services/user/userService.js";
 import {expect} from "chai";
 
 describe("User Entity", ()=>{
-	let dbWrapper;
 	let user;
+	let dbWrapper;
 	let userWrapper;
 	
 	beforeEach(async ()=>{
@@ -13,7 +13,7 @@ describe("User Entity", ()=>{
 		await dbWrapper.deleteAllUsers();
 		
 		// Used the user factory to instantiate a new user.
-		user = await createUser("test", "test", "tester123416", "test1234", "test123@gmail.com");
+		user = await createUser("test", "test", "tester123416", "test1234", "test123@publix.com");
 		if(user.boolean === false){
 			throw new Error(user.response);
 		}
@@ -22,13 +22,28 @@ describe("User Entity", ()=>{
 		userWrapper = new userService(user);
 	});
 	
+	afterEach(async ()=>{
+		await dbWrapper.deleteAllUsers();
+	});
 	
-	it("should have a username, password, and email property", ()=>{
-		expect(user).to.have.property("firstName").that.equals("test");
-		expect(user).to.have.property("lastName").that.equals("test");
-		expect(user).to.have.property("username").that.equals("tester123416");
-		expect(user).to.have.property("password").that.equals("test1234");
-		expect(user).to.have.property("email").that.equals("test123@gmail.com");
+	it("should have a firstName field", ()=>{
+		expect(userWrapper.getFirstName()).to.equal("test");
+	});
+	
+	it("should have a lastName field", ()=>{
+		expect(userWrapper.getLastName()).to.equal("test");
+	});
+	
+	it("should have a username field", ()=>{
+		expect(userWrapper.getUserName()).to.equal("tester123416");
+	});
+	
+	it("should have a password field", ()=>{
+		expect(userWrapper.getPassword()).to.equal("test1234");
+	});
+	
+	it("should have an email field", ()=>{
+		expect(userWrapper.getEmail()).to.equal("test123@publix.com");
 	});
 	
 	it("should have a first name in between 0 and 16 characters long", ()=>{
@@ -47,7 +62,7 @@ describe("User Entity", ()=>{
 		expect(userWrapper.getValidatePassword()).to.be.true;
 	});
 	
-	it("should have a valid email that contains the @ symbol", ()=>{
+	it("should have a valid email that ends with @publix.com", ()=>{
 		expect(userWrapper.getValidateEmail()).to.be.true;
 	})
 });

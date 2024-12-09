@@ -2,11 +2,10 @@ import User from "../../entities/user.js";
 import userService from "./userService.js";
 import databaseService from "../../utils/databaseService.js";
 
-
 /*	
-	A function that keeps the details of how user entity objects are instantiated hidden from the rest of the application.
+	A function that keeps the details of how user objects are created hidden from the rest of the application.
  	If the user entity is redefined, implementing those changes will be easy.
- 	Will also keep the business logic releated to creating users seperate from the entity itself.
+ 	Implements the business logic releated to creating users entities through userService.
 */
 async function createUser(firstName, lastName, username, password, email){
 	let dbWrapper = new databaseService();
@@ -43,7 +42,7 @@ async function createUser(firstName, lastName, username, password, email){
 		case !userWrapper.getValidateEmail():
 			return{
 				boolean: false,
-				response: "Email must contain one @ character."
+				response: "Email must end with @publix.com."
 			};
 	}
 	
