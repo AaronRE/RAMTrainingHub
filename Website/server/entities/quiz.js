@@ -13,9 +13,9 @@
 		return this.title.length > 0 && this.title.length <= 30;
 	}
 	
-	// Method that ensures the body of the quiz is between 0 and 5000 characters long.
+	// Method that ensures the body of the quiz is between 0 and 50 characters long.
 	validateBody(){
-		return this.body.length >= 0 && this.body.length <= 5000;
+		return this.body.length >= 0 && this.body.length <= 50;
 	}
 }
 

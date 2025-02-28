@@ -26,7 +26,7 @@ async function createQuiz(moduleId, title, body){
 		case !quizWrapper.getValidateBody():
 			return{
 				boolean: false,
-				response: "The body of the quiz must be between 0 and 5000 characters long."
+				response: "The body of the quiz must be between 0 and 50 characters long."
 			};
 	}
 	

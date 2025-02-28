@@ -23,11 +23,11 @@ async function createImage(documentId, imageName, imageLink){
 				boolean: false,
 				response: "The title of the image must be between 1 and 50 characters long."
 			};
-		case !imageWrapper.getValidateLink():
-			return{
-				boolean: false,
-				response: "The link of the image must be a google image link"
-			};
+		//case !imageWrapper.getValidateLink():
+		//	return{
+		//		boolean: false,
+		//		response: "The link of the image must be a google image link"
+		//	};
 	}
 	
 	// If we have a valid image we can then add it to the database.

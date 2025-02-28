@@ -177,6 +177,47 @@ class databaseService{
 		});
 	}
 	
+	// Method that verifies if the given username and its password exists in the datase.
+	async userLogin(username, password){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				let [userData] = await connection.query(
+					"SELECT * FROM users WHERE userName = ?",
+					[username]
+				);
+				
+				if(userData.length === 0){
+					return{
+						boolean: false,
+						response : "Incorrect username and or password."
+					}
+				}
+				
+				userData = userData[0];
+				
+				if(userData.userName === username && userData.user_password === password){
+					return{
+						boolean: true,
+						response : "Logged in successfully!"
+					}
+				}
+				else{
+					return{
+						boolean: false,
+						response : "Incorrect username and or password."
+					}
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, couldn't log in."
+				}
+			}
+		});
+	}
+	
 	// Method that adds a new document to the database.
 	async addDocument(moduleId, title, body, author, email, type){
 		return await this.connectionHandler(async(connection)=>{
@@ -281,30 +322,6 @@ class databaseService{
 		});
 	}
 	
-	// Method that retrieves all the documents associated to the given module id from the connected database.
-	async getModuleDocuments(moduleId){
-		return await this.connectionHandler(async (connection)=>{
-			try{
-				const [documents] = await connection.query(
-					"SELECT * FROM documents WHERE module_id = ?",
-					[moduleId]
-				);
-				return{
-					documents: documents,
-					boolean: true,
-					response : "All documents associated to the given moduleId retrieved successfully!"
-				}
-			}
-			catch(error){
-				console.error(error);
-				return{
-					boolean: false,
-					response: "Error, documents couldn't be retrieved."
-				}
-			}
-		});
-	}
-	
 	// Method that adds a new image to the given document by its id.
 	async addImage(documentId, imageName, imageLink){
 		return await this.connectionHandler(async(connection)=>{
@@ -313,7 +330,7 @@ class databaseService{
 					"INSERT INTO images (document_id, image_name, image_link) VALUES (?, ?, ?)",
 					[documentId, imageName, imageLink]
 				);
-				const imageId = res.insertId;;
+				const imageId = res.insertId;
 				return{
 					id: imageId,
 					boolean: true,
@@ -347,7 +364,7 @@ class databaseService{
 		return await this.connectionHandler(async (connection)=>{
 			try{
 				await connection.query(
-					"DELETE FROM images WHERE image_Name = ?",
+					"DELETE FROM images WHERE image_name = ?",
 					[imageName]
 				);
 				return{
@@ -509,6 +526,30 @@ class databaseService{
 				return{
 					boolean: false,
 					response: "Error, modules couldn't be retrieved."
+				}
+			}
+		});
+	}
+	
+	// Method that retrieves all the documents associated to the given module id from the connected database.
+	async getModuleDocuments(moduleId){
+		return await this.connectionHandler(async (connection)=>{
+			try{
+				const [documents] = await connection.query(
+					"SELECT * FROM documents WHERE module_id = ?",
+					[moduleId]
+				);
+				return{
+					documents: documents,
+					boolean: true,
+					response : "All documents associated to the given moduleId retrieved successfully!"
+				}
+			}
+			catch(error){
+				console.error(error);
+				return{
+					boolean: false,
+					response: "Error, documents couldn't be retrieved."
 				}
 			}
 		});
@@ -729,6 +770,7 @@ class databaseService{
 				};
 			}
 			catch(error){
+				console.log(error);
 				return{
 					boolean: false,
 					response: "Error, quiz attempt couldn't be created."
@@ -882,7 +924,7 @@ class databaseService{
 					[quizAttemptId]
 				);
 				return{
-					quizAnwers: quizAnswers,
+					quizAnswers: quizAnswers,
 					boolean: true,
 					response : "All quiz answers associated to the given quiz attempt id retrieved successfully!"
 				}

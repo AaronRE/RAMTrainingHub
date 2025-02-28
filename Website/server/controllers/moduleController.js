@@ -1,6 +1,6 @@
 // Will map module related HTTP requests to the appropriate services which contain the appropriate business logic to handle them.
-import moduleService from "../services/module/moduleService";
-import createModule from "../services/module/moduleFactory";
+import moduleService from "../services/module/moduleService.js";
+import createModule from "../services/module/moduleFactory.js";
 
 class moduleController{
 	// Method that relays module creation requests to the approriate service.
@@ -39,7 +39,7 @@ class moduleController{
 	
 	// Method that relays module deletion requests to the approriate service.
 	async deleteModule(req, res){
-		const moduleTitle = req.body.title;
+		const moduleTitle = req.query.title;
 		let moduleWrapper = new moduleService();
 		/* 
 			Attempting to delete the proposed module from the database via the moduleService deleteModule method
@@ -64,7 +64,7 @@ class moduleController{
 	}
 	
 	// Method that relays module retrieval requests to the approriate service.
-	async getModules(res){
+	async getModules(req, res){
 		let moduleWrapper = new moduleService();
 		/* 
 			Attempting to retrieve the module(s) from the database via the moduleService getModules method
@@ -75,11 +75,39 @@ class moduleController{
 			// Module(s) retrieval successful.
 			return res.status(201).json({
 				boolean: true,
-				response: result.response
+				response: result.response,
+				modules: result.modules
 			});
 		}
 		else{
 			// Module(s) retrieval failed.
+			return res.status(400).json({
+				boolean: false,
+				response: result.response
+			});
+		}
+		
+	}
+	
+	// Method that relays mdoule document retrieval requests to the approriate service.
+	async getModuleDocuments(req, res){
+		const moduleId = req.query.moduleId;
+		let moduleWrapper = new moduleService();
+		/* 
+			Attempting to retrieve the documents associated to the given moduleId from the database via the documentService 
+			getModuleDocuments method which interacts with the database through the appropriate databaseService method.
+		*/
+		let result = await moduleWrapper.getModuleDocuments(moduleId);
+		if(result.boolean){
+			// Module associated document(s) retrieval successful.
+			return res.status(201).json({
+				boolean: true,
+				response: result.response,
+				documents: result.documents
+			});
+		}
+		else{
+			// Module associated document(s) retrieval failed.
 			return res.status(400).json({
 				boolean: false,
 				response: result.response

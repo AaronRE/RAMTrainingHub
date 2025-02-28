@@ -1,6 +1,6 @@
 // Will map quiz attempt related HTTP requests to the appropriate services which contain the appropriate business logic to handle them.
-import quizAttemptService from "../services/quizAttempt/quizAttemptService";
-import createQuizAttempt from "../services/quizAttempt/quizAttemptFactory";
+import quizAttemptService from "../services/quizAttempt/quizAttemptService.js";
+import createQuizAttempt from "../services/quizAttempt/quizAttemptFactory.js";
 
 class quizAttemptController{
 	// Method that relays quiz attempt creation requests to the approriate service.
@@ -66,7 +66,7 @@ class quizAttemptController{
 	
 	// Method that relays quizAttempt retrieval requests to the approriate service.
 	async getQuizAttempts(req, res){
-		const userId = req.body.userId;
+		const userId = req.query.userId;
 		let quizAttemptWrapper = new quizAttemptService();
 		/* 
 			Attempting to retrieve the quizAttempt(s) from the database via the quizAttemptService getQuizAttempts method
@@ -77,6 +77,7 @@ class quizAttemptController{
 			// quizAttempt(s) retrieval successful.
 			return res.status(201).json({
 				boolean: true,
+				quizAttempts: result.quizAttempts,
 				response: result.response
 			});
 		}

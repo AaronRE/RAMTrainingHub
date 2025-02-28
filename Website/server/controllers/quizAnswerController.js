@@ -1,6 +1,6 @@
 // Will map quiz answer related HTTP requests to the appropriate services which contain the appropriate business logic to handle them.
-import quizAnswerService from "../services/quizAnswer/quizAnswerService";
-import createQuizAnswer from "../services/quizAnswer/quizAnswerFactory";
+import quizAnswerService from "../services/quizAnswer/quizAnswerService.js";
+import createQuizAnswer from "../services/quizAnswer/quizAnswerFactory.js";
 
 class quizAnswerController{
 	// Method that relays quiz answer creation requests to the approriate service.
@@ -66,7 +66,7 @@ class quizAnswerController{
 	
 	// Method that relays quizAnswer retrieval requests to the approriate service.
 	async getQuizAnswers(req, res){
-		const quizAttemptId = req.body.quizAttemptId;
+		const quizAttemptId = req.query.quizAttemptId;
 		let quizAnswerWrapper = new quizAnswerService();
 		/* 
 			Attempting to retrieve the quizAnswer(s) from the database via the quizAnswerService getQuizAnswers method
@@ -77,7 +77,8 @@ class quizAnswerController{
 			// quizAnswer(s) retrieval successful.
 			return res.status(201).json({
 				boolean: true,
-				response: result.response
+				response: result.response,
+				quizAnswers: result.quizAnswers
 			});
 		}
 		else{

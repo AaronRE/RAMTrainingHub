@@ -1,6 +1,6 @@
 // Will map image related HTTP requests to the appropriate services which contain the appropriate business logic to handle them.
-import imageService from "../services/image/imageService";
-import createImage from "../services/image/imageFactory";
+import imageService from "../services/image/imageService.js";
+import createImage from "../services/image/imageFactory.js";
 
 class imageController{
 	// Method that relays image creation requests to the approriate service.
@@ -40,7 +40,8 @@ class imageController{
 	
 	// Method that relays image deletion requests to the approriate service.
 	async deleteImage(req, res){
-		const imageName = req.body.imageName;
+		const imageName = req.query.imageName;
+
 		let imageWrapper = new imageService();
 		/* 
 			Attempting to delete the proposed image from the database via the imageService deleteUser method
@@ -66,7 +67,7 @@ class imageController{
 	
 	// Method that relays image retrieval requests to the approriate service.
 	async getImages(req, res){
-		const documentId = req.body.documentId;
+		const documentId = req.query.documentId;
 		let imageWrapper = new imageService();
 		/* 
 			Attempting to retrieve the images associated to the given documentId from the database via the imageService
@@ -77,7 +78,8 @@ class imageController{
 			// Image(s) retrieval successful.
 			return res.status(201).json({
 				boolean: true,
-				response: result.response
+				response: result.response,
+				images: result.images
 			});
 		}
 		else{

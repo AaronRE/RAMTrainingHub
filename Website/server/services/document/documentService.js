@@ -71,21 +71,16 @@ class documentService{
 	// Async method that deletes a document from the database with the given title.
 	async deleteDocument(title){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.deleteDocument(title);
+		let result =  await dbWrapper.deleteDocument(title);
+		return result;
 	}
 	
 	// Async method that retrieves all documents from the database.
 	async getDocuments(){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.getDocuments();
+		let result = await dbWrapper.getDocuments();
+		return result;
 	}
-	
-	// Async method that retrieves all documents from the database associated to the given moduleId.
-	async getModuleDocuments(moduleId){
-		let dbWrapper = new databaseService();
-		return result = await dbWrapper.getModuleDocuments(moduleId);
-	}
-	
 	
 }
 

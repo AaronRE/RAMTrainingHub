@@ -36,7 +36,7 @@ async function createQuizAnswer(quizAttemptId, quizQuestionId, answer){
 		case !quizAnswerWrapper.getValidateAnswer():
 			return{
 				boolean: false,
-				response: "The quiz answer answer field must be a character."
+				response: "Please respond to each question."
 			};
 	}
 	

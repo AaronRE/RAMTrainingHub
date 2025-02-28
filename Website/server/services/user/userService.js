@@ -77,7 +77,15 @@ class userService{
 	// Async method that reteives the user data associated to the given username from the database.
 	async getUserData(userName){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.getUserData(userName);
+	    let result = await dbWrapper.getUserData(userName);
+	    return result;
+	}
+	
+	// Async method that verifies if the given username and password exist in the database.
+	async userLogin(userName, user_password){
+		let dbWrapper = new databaseService();
+		let result = await dbWrapper.userLogin(userName, user_password);
+		return result;
 	}
 }
 

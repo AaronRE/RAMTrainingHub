@@ -35,19 +35,29 @@ class moduleService{
 	
 	// Async method that returns a module that is also added to the database.
 	async createModule(title, body){
-		return result = await createModule(title, body);
+		let result = await createModule(title, body);
+		return result;
 	}
 	
 	// Async method that deletes a module from the database with the given title.
 	async deleteModule(title){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.deleteModule(title);
+		let result = await dbWrapper.deleteModule(title);
+		return result;
 	}
 	
 	// Async method that retrieves all modules from the database.
 	async getModules(){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.getModules();
+		let result = await dbWrapper.getModules();
+		return result;
+	}
+	
+	// Async method that retrieves all documents from the database associated to the given moduleId.
+	async getModuleDocuments(moduleId){
+		let dbWrapper = new databaseService();
+		let result = await dbWrapper.getModuleDocuments(moduleId);
+		return result;
 	}
 	
 }

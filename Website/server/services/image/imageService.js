@@ -36,13 +36,15 @@ class imageService{
 	// Async method that deletes an image from the database with the given imageName.
 	async deleteImage(imageName){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.deleteImage(imageName);
+		let result = await dbWrapper.deleteImage(imageName);
+		return result;
 	}
 	
 	// Async method that retrieves all images from the database associated to the given document.
 	async getImages(documentId){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.getImages(documentId);
+		let result = await dbWrapper.getImages(documentId);
+		return result;
 	}
 }
 

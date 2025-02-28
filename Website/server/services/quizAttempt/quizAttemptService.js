@@ -67,13 +67,15 @@ class quizAttemptService{
 	// Async method that deletes a quizAttempt from the database associated with the given quizAttemptId.
 	async deleteQuizAttempt(quizAttemptId){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.deleteQuizAttempt(quizAttemptId);
+		let result = await dbWrapper.deleteQuizAttempt(quizAttemptId);
+		return result;
 	}
 	
 	// Async method that retrieves all quizAttempts from the database associated to the given userId.
 	async getQuizAttempts(userId){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.getQuizAttempts(userId);
+		let result = await dbWrapper.getQuizAttempts(userId);
+		return result;
 	}
 }
 

@@ -41,7 +41,7 @@ async function createDocument(moduleId, title, body, author, email, type){
 		case !documentWrapper.getValidateType():
 			return{
 				boolean: false,
-				response: "The document type must be either Manual or Procedure."
+				response: "The document type must be either Manual or Procedural."
 			};
 	}
 	

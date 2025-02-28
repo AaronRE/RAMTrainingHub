@@ -32,9 +32,9 @@
 		return emailRegex.test(this.email);
 	}
 	
-	// Method that ensures the type of the document is either Manual or Procedure.
+	// Method that ensures the type of the document is either Manual or Procedural.
 	validateType(){
-		return this.type === "Manual" || this.type === "Procedure";
+		return this.type === "Manual" || this.type === "Procedural";
 	}
 	
 }

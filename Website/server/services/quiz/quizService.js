@@ -46,13 +46,15 @@ class quizService{
 	// Async method that deletes a quiz from the database with the given title.
 	async deleteQuiz(title){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.deleteQuiz(title);
+		let result = await dbWrapper.deleteQuiz(title);
+		return result;
 	}
 	
 	// Async method that retrieves all quizzes from the database associated to the given moduleId.
 	async getQuizzes(moduleId){
 		let dbWrapper = new databaseService();
-		return result = await dbWrapper.getQuizzes(moduleId);
+		let result = await dbWrapper.getQuizzes(moduleId);
+		return result;
 	}
 }
 

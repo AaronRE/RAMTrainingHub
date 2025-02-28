@@ -1,7 +1,6 @@
 // Will map quiz related HTTP requests to the appropriate services which contain the appropriate business logic to handle them.
-import quizService from "../services/quiz/quizService";
-import createQuiz from "../services/quiz/quizFactory";
-import moduleService from "../services/module/moduleService";
+import quizService from "../services/quiz/quizService.js";
+import createQuiz from "../services/quiz/quizFactory.js";
 
 class quizController{
 	// Method that relays quiz creation requests to the approriate service.
@@ -41,7 +40,7 @@ class quizController{
 	
 	// Method that relays quiz deletion requests to the approriate service.
 	async deleteQuiz(req, res){
-		const quizTitle = req.body.title;
+		const quizTitle = req.query.title;
 		let quizWrapper = new quizService();
 		/* 
 			Attempting to delete the proposed quiz from the database via the quizService deleteQuiz method
@@ -67,7 +66,7 @@ class quizController{
 	
 	// Method that relays quiz retrieval requests to the approriate service.
 	async getQuizzes(req, res){
-		const moduleId = req.body.moduleId;
+		const moduleId = req.query.moduleId;
 		let quizWrapper = new quizService();
 		/* 
 			Attempting to retrieve the quizzes from the database via the quizService getQuizzes method
@@ -78,7 +77,8 @@ class quizController{
 			// Quizze(s) retrieval successful.
 			return res.status(201).json({
 				boolean: true,
-				response: result.response
+				response: result.response,
+				quizzes: result.quizzes
 			});
 		}
 		else{

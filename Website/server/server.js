@@ -1,30 +1,46 @@
 import express from "express";
-import path from "path";
+import cors from "cors";
+import documentRoutes from "./routes/documentRoutes.js"
+import imageRoutes from "./routes/imageRoutes.js"
+import moduleRoutes from "./routes/moduleRoutes.js"
+import quizRoutes from "./routes/quizRoutes.js"
+import quizQuestionRoutes from "./routes/quizQuestionRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
+import quizAttemptRoutes from "./routes/quizAttemptRoutes.js"
+import quizAnswerRoutes from "./routes/quizAnswerRoutes.js"
+
+
 const app = express();
-const port = 5000; // Choose a port for the server
+const port = 5000; 
 
-//Import router
-//const router = require('./routes/index');
+app.use(cors());
 
-// Middleware to parse JSON
+
 app.use(express.json());
 
-// Route for home page
-//app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/public/index.html'));
-//});
+// API routes
+app.use("/api/documents", documentRoutes); 
 
-//login endpoint stub
-app.post('/api/login', (req, res) => {
-	res.sendStatus(200);
-});
+app.use("/api/images", imageRoutes);
 
-app.get('/api/endpoint', (req, res) => {
-  res.json({ message: 'Hello from the Node server!' });
-});
+app.use("/api/modules", moduleRoutes); 
 
+app.use("/api/users", userRoutes); 
+
+app.use("/api/quizzes", quizRoutes); 
+
+app.use("/api/quizQuestions", quizQuestionRoutes); 
+
+app.use("/api/quizAttempts", quizAttemptRoutes); 
+
+app.use("/api/quizAnswers", quizAnswerRoutes); 
+
+
+
+
+// Start the server
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
 
 export default app;
