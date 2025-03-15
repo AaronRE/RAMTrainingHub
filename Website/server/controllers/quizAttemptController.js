@@ -9,8 +9,9 @@ class quizAttemptController{
 		const userId = req.body.userId;
 		const quizId = req.body.quizId;
 		const isFinished = req.body.isFinished;
+		const score = req.body.score;
 		
-		let quizAttempt = await createQuizAttempt(userId, quizId, isFinished);
+		let quizAttempt = await createQuizAttempt(userId, quizId, isFinished, score);
 		
 		// Reponses based on the attempt to create the proposed quiz attempt.
 		if(quizAttempt.boolean){
@@ -90,6 +91,44 @@ class quizAttemptController{
 		}
 		
 	}
+	
+async updateQuizAttemptScore(req, res) {
+    try {
+      const { attemptId, isFinished, score } = req.body;
+
+      // Validate request data
+      if (!attemptId || score === undefined || isFinished === undefined) {
+        return res.status(400).json({
+          boolean: false,
+          response: "Missing required fields.",
+        });
+      }
+
+      // Create a service instance
+      let quizAttemptWrapper = new quizAttemptService();
+
+      // Call the service method to update quiz attempt
+      let result = await quizAttemptWrapper.updateQuizAttemptScore(attemptId, isFinished, score);
+
+      if (result.boolean) {
+        return res.status(200).json({
+          boolean: true,
+          response: "Quiz attempt updated successfully!",
+        });
+      } else {
+        return res.status(400).json({
+          boolean: false,
+          response: result.response,
+        });
+      }
+    } catch (error) {
+      console.error("Error updating quiz attempt:", error);
+      return res.status(500).json({
+        boolean: false,
+        response: "An unexpected error occurred.",
+      });
+    }
+  }
 }
 
 export default quizAttemptController;

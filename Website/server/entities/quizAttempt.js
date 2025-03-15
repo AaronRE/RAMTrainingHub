@@ -1,11 +1,12 @@
 // Represents the quiz attempt business object. Will encapsulate its related data, behavior, and rules.
 
  class quizAttempt{
-	constructor(id, userId, quizId, isFinished){
+	constructor(id, userId, quizId, isFinished, score){
 		this.id = id;
 		this.userId = userId;
 		this.quizId = quizId;
 		this.isFinished = isFinished;
+		this.score = score;
 	}
 	
 	// Method that ensures id is an integer.
@@ -26,6 +27,11 @@
 	// Method that ensures isFinished is a boolean.
 	validateIsFinished(){
 		return typeof this.isFinished === "boolean";
+	}
+	
+	// Method that ensures score is an integer.
+	validateScore(){
+		return Number.isInteger(this.score);
 	}
 }
 

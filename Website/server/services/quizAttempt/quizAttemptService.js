@@ -59,9 +59,14 @@ class quizAttemptService{
 		}
 	}
 	
+	// Getter method that ensures the quiz attempt's score field is an integer.
+	getValidateScore(){
+		return this.quizAttempt.validateScore();
+	}
+	
 	// Async method that returns a quizAttempt that is also added to the database.
-	async createQuizAttempt(userId, quizId, isFinished){
-		return result = await createQuizAttempt(userId, quizId, isFinished);
+	async createQuizAttempt(userId, quizId, isFinished, score){
+		return result = await createQuizAttempt(userId, quizId, isFinished, score);
 	}
 	
 	// Async method that deletes a quizAttempt from the database associated with the given quizAttemptId.
@@ -76,6 +81,12 @@ class quizAttemptService{
 		let dbWrapper = new databaseService();
 		let result = await dbWrapper.getQuizAttempts(userId);
 		return result;
+	}
+	
+	async updateQuizAttemptScore(quizAttemptId, isFinished, score) {
+      let dbWrapper = new databaseService();
+	  let result = await dbWrapper.updateQuizAttemptScore(quizAttemptId, isFinished, score);
+	  return result;
 	}
 }
 

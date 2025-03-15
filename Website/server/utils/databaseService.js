@@ -755,12 +755,12 @@ class databaseService{
 	
 	
 	// Method that adds a new quiz attempt to the database.
-	async addQuizAttempt(userId, quizId, isFinished){
+	async addQuizAttempt(userId, quizId, isFinished, score){
 		return await this.connectionHandler(async(connection)=>{
 			try{
 				const [res] = await connection.query(
-					"INSERT INTO quiz_attempts (user_id, quiz_id, is_finished) VALUES (?, ?, ?)",
-					[userId, quizId, isFinished]
+					"INSERT INTO quiz_attempts (user_id, quiz_id, is_finished, score) VALUES (?, ?, ?, ?)",
+					[userId, quizId, isFinished, score]
 				);
 				const quizAttemptId = res.insertId;
 				return{
@@ -846,6 +846,30 @@ class databaseService{
 			}
 		});
 	}
+	
+	// Method that updates an existing quiz attempt's score.
+	async updateQuizAttemptScore(attemptId, isFinished, score) {
+	    return await this.connectionHandler(async (connection) => {
+	        try {
+	            const [res] = await connection.query(
+	                "UPDATE quiz_attempts SET score = ?, is_finished = ? WHERE id = ?",
+	                [score, isFinished, attemptId]
+	            );
+	
+	            return {
+	                boolean: true,
+	                response: "Quiz attempt updated successfully!",
+	            };
+	        } catch (error) {
+	            console.error(error);
+	            return {
+	                boolean: false,
+	                response: "Error, couldn't update the quiz attempt."
+	            };
+	        }
+	    });
+	}
+
 	
 	// Method that adds a new quiz answer to the database.
 	async addQuizAnswer(quizAttemptId, quizQuestionId, answer){
